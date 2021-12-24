@@ -1,0 +1,1 @@
+git log main..$1 --oneline | tail -1
