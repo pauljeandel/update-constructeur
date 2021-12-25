@@ -24,12 +24,13 @@ else
             echo
             echo 'git status OK'
             if [[ `git branch | grep $2` ]]; then
-                echo 'Verification des mises à jour sur la branche' $2' :'
                 echo
                 firstcommit=$(git log main..$2 --oneline | tail -1 | cut -c1-7)
                 echo 'Premier commit de la branche' $2 ':' $firstcommit
                 commitbefore=$(git log main $2 --oneline | tail -1 | cut -c1-7)
                 echo 'Commit précedent sur la branche principale :' $commitbefore
+                echo
+                echo 'Verification des mises à jour sur la branche' $2' :'
                 echo
                 git cherry -v $2 main $commitbefore | grep '^\+' --color
             else
