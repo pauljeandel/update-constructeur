@@ -30,7 +30,7 @@ else
                 commitbefore=$(git log main $2 --oneline | tail -1 | cut -c1-7)
                 echo 'Commit précedent sur la branche principale :' $commitbefore
                 echo
-                echo 'Verification des mises à jour sur la branche' $2' :'
+                echo 'Verification des mises à jour disponibles sur la branche' $2' :'
                 echo
                 git cherry -v $2 main $commitbefore | grep '^\+' --color
             else
