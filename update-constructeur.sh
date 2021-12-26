@@ -8,7 +8,7 @@ else
     cd $1
     if [ $? -ne 0 ]
     then
-        echo "FATAL : Chemin de projet ACF invalide"
+        echo "FATAL : Chemin du projet ACF invalide"
         exit 1
     fi
     if [ -z "$2" ]
@@ -25,14 +25,19 @@ else
             echo 'git status OK'
             if [[ `git branch | grep $2` ]]; then
                 echo
-                firstcommit=$(git log main..$2 --oneline | tail -1 | cut -c1-7)
+                firstcommit=$(git log master..$2 --oneline | tail -1 | cut -c1-7)
                 echo 'Premier commit de la branche' $2 ':' $firstcommit
-                commitbefore=$(git log main $2 --oneline | tail -1 | cut -c1-7)
+                commitbefore=$(git log master $2 --oneline | sed -n '/'$2'/{n;p;}' | cut -c1-7)
                 echo 'Commit précedent sur la branche principale :' $commitbefore
                 echo
                 echo 'Verification des mises à jour disponibles sur la branche' $2' :'
                 echo
-                git cherry -v $2 main $commitbefore | grep '^\+' --color
+                git cherry -v $2 master $commitbefore | grep '^\+' --color
+                echo
+                echo 'Mises à jour déjà appliquées sur la branche' $2' :'
+                echo
+                git cherry -v $2 master $commitbefore | grep '^\-' --color
+                exit 0
             else
                 echo 'FATAL : Branche non trouvée :' $2
                 exit 1
