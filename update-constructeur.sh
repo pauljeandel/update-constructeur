@@ -2,20 +2,14 @@
 # Usage : bash update-constructeur.sh [acf-project-path] [branch-to-check]
 
 
-#| grep -oP '(?<=tag\/)[^"]*'
-content=$(wget https://github.com/pauljeandel/update-constructeur/releases -q -O -)
-lastRelease=$(echo "$content" | tr ' ' '\n' | grep -n '/pauljeandel/update-constructeur/releases/tag/' )
-echo
-echo -n "Version du script la plus récente : "
-echo -n ${lastRelease: -4} | cut -c1-3
-echo "( Version actuelle : 1.0 )"
+
 # if [ "`echo "${lastRelease: -4}" | cut -c1-3" > 1.0" | bc`" -eq 1 ]; then
 #     echo ""
 # else
 #     echo ""
 # fi
 #help
-if [ "$1" == "-h" ] || [ "$1" == "--help" ]
+if [ "$1" == "-h" ] || [ "$1" == "help" ]
 then
     echo
     echo "Usage : bash update-constructeur.sh [acf-project-path] [branch-to-check]"
@@ -28,6 +22,16 @@ then
     echo
     exit 0
 fi
+
+
+#| grep -oP '(?<=tag\/)[^"]*'
+content=$(wget https://github.com/pauljeandel/update-constructeur/releases -q -O -)
+lastRelease=$(echo "$content" | tr ' ' '\n' | grep -n '/pauljeandel/update-constructeur/releases/tag/' )
+echo
+echo -n "Version du script la plus récente : "
+echo -n ${lastRelease: -4} | cut -c1-3
+echo "( Version actuelle : 1.0 )"
+
 
 if [ -z "$1" ]
   then
