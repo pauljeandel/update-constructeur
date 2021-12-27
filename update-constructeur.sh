@@ -1,22 +1,6 @@
 # Usage : bash update-constructeur.sh [acf-project-path] [branch-to-check]
 
 
-if [ "$1" = "install" ]; then
-    echo "Installing globally.."
-    sudo cp update-constructeur.sh /usr/local/bin/update-constructeur
-    sudo chmod +x /usr/local/bin/update-constructeur
-    echo "Done."
-  exit 0
-fi
-
-#if $1 is equal to 'update' then update the script form git with git pull
-if [ "$1" = "update" ]; then
-    cd /usr/local/bin/update-constructeur
-    git pull
-    echo "Done."
-fi
-
-
 if [ -z "$1" ]
   then
     echo "FATAL : Pas de chemin de projet ACF spécifié"
@@ -70,3 +54,20 @@ fi
 
 # git log --oneline --all | sed -n '/f9712cc/{n;p;}' | cut -c1-8
 # git cherry -v inondation-protection master 9c855e3 | grep '^\+'
+
+
+# if [ "$1" = "install" ]; then
+#     echo "Installing globally.."
+#     sudo cp update-constructeur.sh /usr/local/bin/update-constructeur
+#     sudo chmod +x /usr/local/bin/update-constructeur
+#     echo "Done."
+#   exit 0
+# fi
+
+# #if $1 is equal to 'update' then update the script form git with git pull
+# if [ "$1" = "update" ]; then
+#     cd /usr/local/bin/update-constructeur
+#     git pull
+#     echo "Done."
+#     exit 0
+# fi
