@@ -1,5 +1,33 @@
+#!/bin/bash
 # Usage : bash update-constructeur.sh [acf-project-path] [branch-to-check]
 
+
+#| grep -oP '(?<=tag\/)[^"]*'
+content=$(wget https://github.com/pauljeandel/update-constructeur/releases -q -O -)
+lastRelease=$(echo "$content" | tr ' ' '\n' | grep -n '/pauljeandel/update-constructeur/releases/tag/' )
+echo
+echo -n "Version du script la plus récente : "
+echo -n ${lastRelease: -4} | cut -c1-3
+echo "( Version actuelle : 1.0 )"
+# if [ "`echo "${lastRelease: -4}" | cut -c1-3" > 1.0" | bc`" -eq 1 ]; then
+#     echo ""
+# else
+#     echo ""
+# fi
+#help
+if [ "$1" == "-h" ] || [ "$1" == "--help" ]
+then
+    echo
+    echo "Usage : bash update-constructeur.sh [acf-project-path] [branch-to-check]"
+    echo "	[acf-project-path] : chemin du projet ACF"
+    echo "	[branch-to-check] : branche à vérifier"
+    echo "	[--help] : affiche cette aide"
+    echo "	[-h] : affiche cette aide"
+    echo
+    echo "Exemple : bash update-constructeur.sh /acf-constructeur /pialat"
+    echo
+    exit 0
+fi
 
 if [ -z "$1" ]
   then
@@ -40,6 +68,7 @@ else
                 echo 'Mises à jour déjà appliquées sur la branche' $2' :'
                 echo
                 git cherry -v $2 master $commitbefore | grep '^\-' --color
+                echo
                 exit 0
             else
                 echo 'FATAL : Branche non trouvée :' $2
