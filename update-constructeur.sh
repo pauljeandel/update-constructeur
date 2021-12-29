@@ -2,23 +2,16 @@
 # Usage : bash update-constructeur.sh [acf-project-path] [branch-to-check]
 
 
-
-# if [ "`echo "${lastRelease: -4}" | cut -c1-3" > 1.0" | bc`" -eq 1 ]; then
-#     echo ""
-# else
-#     echo ""
-# fi
-#help
 if [ "$1" == "-h" ] || [ "$1" == "help" ]
 then
     echo
     echo "Usage : bash update-constructeur.sh [acf-project-path] [branch-to-check]"
     echo "	[acf-project-path] : chemin du projet ACF"
     echo "	[branch-to-check] : branche à vérifier"
-    echo "	[--help] : affiche cette aide"
+    echo "	[help] : affiche cette aide"
     echo "	[-h] : affiche cette aide"
     echo
-    echo "Exemple : bash update-constructeur.sh /acf-constructeur /pialat"
+    echo "Exemple : bash update-constructeur.sh ../acf-constructor inondation-protection"
     echo
     exit 0
 fi
@@ -27,10 +20,22 @@ fi
 #| grep -oP '(?<=tag\/)[^"]*'
 content=$(wget https://github.com/pauljeandel/update-constructeur/releases -q -O -)
 lastRelease=$(echo "$content" | tr ' ' '\n' | grep -n '/pauljeandel/update-constructeur/releases/tag/' )
-echo
-echo -n "Version du script la plus récente : "
-echo -n ${lastRelease: -4} | cut -c1-3
-echo "( Version actuelle : 1.0 )"
+#echo -n ${lastRelease: -4} | cut -c1-3
+lastReleaseVersion=$(echo ${lastRelease: -4} | cut -c1-3)
+if [ $lastReleaseVersion == 1.0 ]
+then
+    echo
+    echo -n "Script à jour ( 1.0 )"
+else
+    echo "--------------------------------------------------------------------------------"
+    echo
+    echo "Mise à jour disponible ( 1.0 > $lastReleaseVersion )"
+    echo "URL : https://github.com/pauljeandel/update-constructeur/releases/$lastReleaseVersion"
+    echo
+    echo "cd ~/web/www/update-constructeur && git pull && cd - && !!"
+    echo
+    echo "--------------------------------------------------------------------------------"
+fi
 
 
 if [ -z "$1" ]
@@ -65,7 +70,7 @@ else
                 commitbefore=$(git log master $2 --oneline | sed -n "/$firstcommit/{n;p;}" | cut -c1-7)
                 echo 'Commit précedent sur la branche principale :' $commitbefore
                 echo
-                echo 'Verification des mises à jour disponibles sur la branche' $2' :'
+                echo 'Mises à jour disponibles sur la branche' $2' :'
                 echo
                 git cherry -v $2 master $commitbefore | grep '^\+' --color
                 echo
@@ -75,7 +80,7 @@ else
                 echo
                 exit 0
             else
-                echo 'FATAL : Branche non trouvée :' $2
+                echo 'FATAL : Branche non existante ou non trouvée localement :' $2
                 exit 1
             fi
         fi
@@ -87,20 +92,3 @@ fi
 
 # git log --oneline --all | sed -n '/f9712cc/{n;p;}' | cut -c1-8
 # git cherry -v inondation-protection master 9c855e3 | grep '^\+'
-
-
-# if [ "$1" = "install" ]; then
-#     echo "Installing globally.."
-#     sudo cp update-constructeur.sh /usr/local/bin/update-constructeur
-#     sudo chmod +x /usr/local/bin/update-constructeur
-#     echo "Done."
-#   exit 0
-# fi
-
-# #if $1 is equal to 'update' then update the script form git with git pull
-# if [ "$1" = "update" ]; then
-#     cd /usr/local/bin/update-constructeur
-#     git pull
-#     echo "Done."
-#     exit 0
-# fi
