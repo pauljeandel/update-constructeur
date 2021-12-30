@@ -19,7 +19,7 @@ fi
 
 #| grep -oP '(?<=tag\/)[^"]*'
 content=$(wget https://github.com/pauljeandel/update-constructeur/releases -q -O -)
-lastRelease=$(echo "$content" | tr ' ' '\n' | grep -n '/pauljeandel/update-constructeur/releases/tag/' )
+lastRelease=$(echo "$content" | tr ' ' '\n' | grep -n '/pauljeandel/update-constructeur/releases/tag/' | head -n 1)
 #echo -n ${lastRelease: -4} | cut -c1-3
 lastReleaseVersion=$(echo ${lastRelease: -4} | cut -c1-3)
 if [ $lastReleaseVersion == 1.0 ]
