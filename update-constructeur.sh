@@ -63,8 +63,6 @@ else
             git checkout -f main
             echo "Mise à jour terminée ( $lastReleaseVersion )"
             bash update-constructeur.sh help
-            echo -n "Returning to :"
-            cd -
             exit 0 
         fi
         if [ "$2" == "master" ]
