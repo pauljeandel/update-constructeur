@@ -61,8 +61,8 @@ else
             echo "Mise à jour du script... > $lastReleaseVersion"
             cd $1 && git pull -f
             git checkout -f main
-            bash update-constructeur.sh help
             echo "Mise à jour terminée ( $lastReleaseVersion )"
+            bash update-constructeur.sh help
             echo -n "Returning to :"
             cd -
             exit 0 
