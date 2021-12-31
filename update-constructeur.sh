@@ -57,6 +57,8 @@ else
     else
         if [ "$2" == "update" ]
         then
+            echo
+            echo "Mise à jour du script... > $lastReleaseVersion"
             cd $1 && git pull -f
             git checkout -f main
             bash update-constructeur.sh help
