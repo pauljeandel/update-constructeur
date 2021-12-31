@@ -33,9 +33,10 @@ then
         echo "URL : https://github.com/pauljeandel/update-constructeur/releases/$currentversion"
         echo
         exit 0 
-    fi
     else
         echo -n "Script à jour ( $currentversion )"
+    fi
+
 else
     echo "--------------------------------------------------------------------------------"
     echo
