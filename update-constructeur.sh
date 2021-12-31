@@ -8,9 +8,10 @@ then
     echo "Usage : bash update-constructeur.sh [acf-project-path] [branch-to-check]"
     echo "	[acf-project-path] : chemin du projet ACF"
     echo "	[branch-to-check] : branche à vérifier"
-    echo "	[help] : affiche cette aide"
-    echo "	[-h] : affiche cette aide"
+    echo "	[acf-project-path -> help] : affiche cette aide"
+    echo "	[branch-to-check -> list] : affiche la liste des branches détectées localement"
     echo
+    echo "Exemple : bash update-constructeur.sh ../acf-constructor list"
     echo "Exemple : bash update-constructeur.sh ../acf-constructor inondation-protection"
     echo
     exit 0
@@ -54,6 +55,19 @@ else
         echo "FATAL : Pas de branche spécifiée"
         exit 1
     else
+        if [ "$2" == "master" ]
+        then
+            echo
+            echo "FATAL : Impossible de comparer master avec master"
+            exit 1
+        fi
+        if [ "$2" == "list" ]
+        then
+            echo
+            echo "Branches détectées localement sur le projet :"
+            git branch
+            exit 1
+        fi
         if [[ `git status --porcelain` ]]; then
             echo 'git status FAIL'
             echo "Une erreur est survenue. Vérifiez que vous n'avez pas de modification en cours."
