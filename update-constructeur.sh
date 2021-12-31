@@ -25,7 +25,6 @@ lastRelease=$(echo "$content" | tr ' ' '\n' | grep -n '/pauljeandel/update-const
 lastReleaseVersion=$(echo ${lastRelease: -4} | cut -c1-3)
 if [ $lastReleaseVersion == $currentversion ]
 then
-    echo
     if [ "$2" == "update" ]
     then
         echo
@@ -34,6 +33,7 @@ then
         echo
         exit 0 
     else
+        echo
         echo -n "Script à jour ( $currentversion )"
     fi
 
