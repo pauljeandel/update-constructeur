@@ -62,6 +62,8 @@ else
             cd $1 && git pull -f
             git checkout -f main
             bash update-constructeur.sh help
+            echo "Mise à jour terminée ( $lastReleaseVersion )"
+            echo -n "Returning to :"
             cd -
             exit 0 
         fi
