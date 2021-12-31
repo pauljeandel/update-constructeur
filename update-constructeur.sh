@@ -1,6 +1,6 @@
 #!/bin/bash
 # Usage : bash update-constructeur.sh [acf-project-path] [branch-to-check]
-
+currentversion=1.0
 
 if [ "$1" == "-h" ] || [ "$1" == "help" ]
 then
@@ -17,23 +17,22 @@ then
     exit 0
 fi
 
-
 #| grep -oP '(?<=tag\/)[^"]*'
 content=$(wget https://github.com/pauljeandel/update-constructeur/releases -q -O -)
 lastRelease=$(echo "$content" | tr ' ' '\n' | grep -n '/pauljeandel/update-constructeur/releases/tag/' | head -n 1)
 #echo -n ${lastRelease: -4} | cut -c1-3
 lastReleaseVersion=$(echo ${lastRelease: -4} | cut -c1-3)
-if [ $lastReleaseVersion == 1.0 ]
+if [ $lastReleaseVersion == $currentversion ]
 then
     echo
-    echo -n "Script à jour ( 1.0 )"
+    echo -n "Script à jour ( $currentversion )"
 else
     echo "--------------------------------------------------------------------------------"
     echo
-    echo "Mise à jour disponible ( 1.0 > $lastReleaseVersion )"
+    echo "Mise à jour disponible ( $currentversion > $lastReleaseVersion )"
     echo "URL : https://github.com/pauljeandel/update-constructeur/releases/$lastReleaseVersion"
     echo
-    echo "cd ~/web/www/update-constructeur && git pull && cd - && !!"
+    echo "PLEASE RUN : cd ~/web/www/update-constructeur && git pull && cd - && !!"
     echo
     echo "--------------------------------------------------------------------------------"
 fi
@@ -55,6 +54,12 @@ else
         echo "FATAL : Pas de branche spécifiée"
         exit 1
     else
+        if [ "$2" == "update" ]
+        then
+            cd $1 && git pull -f && cd -
+            git checkout -f main
+            exit 0 
+        fi
         if [ "$2" == "master" ]
         then
             echo
@@ -66,7 +71,9 @@ else
             echo
             echo "Branches détectées localement sur le projet :"
             git branch
-            exit 1
+            echo
+            echo "Pour détecter une nouvelle branche : cd acf-constructor && git checkout [branch-name] && cd -"
+            exit 0
         fi
         if [[ `git status --porcelain` ]]; then
             echo 'git status FAIL'
