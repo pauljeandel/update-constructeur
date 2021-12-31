@@ -26,11 +26,16 @@ lastReleaseVersion=$(echo ${lastRelease: -4} | cut -c1-3)
 if [ $lastReleaseVersion == $currentversion ]
 then
     echo
-    echo -n "Script à jour ( $currentversion )"
     if [ "$2" == "update" ]
-        then
-            exit 0 
-        fi
+    then
+        echo
+        echo "Script déja à jour. ( $currentversion )"
+        echo "URL : https://github.com/pauljeandel/update-constructeur/releases/$currentversion"
+        echo
+        exit 0 
+    fi
+    else
+        echo -n "Script à jour ( $currentversion )"
 else
     echo "--------------------------------------------------------------------------------"
     echo
