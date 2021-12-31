@@ -9,6 +9,7 @@ then
     echo "	[acf-project-path] : chemin du projet ACF"
     echo "	[branch-to-check] : branche à vérifier"
     echo "	[acf-project-path -> help] : affiche cette aide"
+    echo "	[acf-project-path -> [path_to_script_folder] [update]] : met à jour le script"
     echo "	[branch-to-check -> list] : affiche la liste des branches détectées localement"
     echo
     echo "Exemple : bash update-constructeur.sh ../acf-constructor list"
@@ -56,8 +57,10 @@ else
     else
         if [ "$2" == "update" ]
         then
-            cd $1 && git pull -f && cd -
+            cd $1 && git pull -f
             git checkout -f main
+            bash update-constructeur.sh help
+            cd -
             exit 0 
         fi
         if [ "$2" == "master" ]
