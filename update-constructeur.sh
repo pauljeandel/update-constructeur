@@ -27,6 +27,10 @@ if [ $lastReleaseVersion == $currentversion ]
 then
     echo
     echo -n "Script à jour ( $currentversion )"
+    if [ "$2" == "update" ]
+        then
+            exit 0 
+        fi
 else
     echo "--------------------------------------------------------------------------------"
     echo
