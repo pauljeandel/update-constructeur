@@ -218,9 +218,3 @@ else
         fi
     fi
 fi
-
-
-
-
-# git log --oneline --all | sed -n '/f9712cc/{n;p;}' | cut -c1-8
-# git cherry -v inondation-protection master 9c855e3 | grep '^\+'
