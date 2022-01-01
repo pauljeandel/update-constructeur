@@ -160,7 +160,7 @@ else
                             echo
                             exit 0
                         else
-                            echo "Commande annulée"
+                            echo "Commande annulée ou aucun patch disponible"
                             exit 0
                         fi
                     fi
