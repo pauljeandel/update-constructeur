@@ -5,15 +5,16 @@ currentversion=1.0
 if [ "$1" == "-h" ] || [ "$1" == "help" ]
 then
     echo
-    echo "Usage : bash update-constructeur.sh [acf-project-path] [branch-to-check]"
-    echo "	[acf-project-path] : chemin du projet ACF"
-    echo "	[branch-to-check] : branche à vérifier"
-    echo "	[acf-project-path -> help] : affiche cette aide"
-    echo "	[acf-project-path -> [path_to_script_folder] [update]] : met à jour le script"
-    echo "	[branch-to-check -> list] : affiche la liste des branches détectées localement"
+    echo "Usage : bash update-constructeur.sh [arg1] [arg2] [arg3]" 
     echo
-    echo "Exemple : bash update-constructeur.sh ../acf-constructor list"
-    echo "Exemple : bash update-constructeur.sh ../acf-constructor inondation-protection"
+    echo "- Lister les projets : [path_to_acf_project] list"
+    echo "- Lister les mises à jour disponibles sur un projet : [path_to_acf_project] [branch-to-check]"
+    echo "- Générer une commande de mise à jour : [path_to_acf_project] [branch-to-check] update"
+    echo 
+    echo "Exemple :"
+    echo "bash update-constructeur.sh ../acf-constructor list"
+    echo "bash update-constructeur.sh ../acf-constructor projet"
+    echo "bash update-constructeur.sh ../acf-constructor projet update"
     echo
     exit 0
 fi
@@ -43,9 +44,18 @@ else
     echo "Mise à jour disponible ( $currentversion > $lastReleaseVersion )"
     echo "URL : https://github.com/pauljeandel/update-constructeur/releases/$lastReleaseVersion"
     echo
-    echo "PLEASE RUN : cd ~/web/www/update-constructeur && git pull && cd - && !!"
-    echo
     echo "--------------------------------------------------------------------------------"
+    echo -n "Voulez-vous mettre à jour le script ? (Y/n) : "
+    read answer
+    if [ "$answer" == "y" ] || [ "$answer" == "Y" ] || [ "$answer" == "" ]
+    then
+        cd ~/web/www/update-constructeur && bash update-constructeur.sh . update
+        echo
+    else
+        echo
+        echo "Please run : bash update-constructeur.sh [path-to-script-folder] update"
+        echo
+    fi
 fi
 
 
@@ -91,30 +101,65 @@ else
             exit 0
         fi
         if [[ `git status --porcelain` ]]; then
-            echo 'git status FAIL'
+            echo
+            echo 'FATAL : git status FAIL'
             echo "Une erreur est survenue. Vérifiez que vous n'avez pas de modification en cours."
             exit 1
         else
             echo
             echo 'git status OK'
             if [[ `git branch | grep $2` ]]; then
-                echo
-                firstcommit=$(git log master..$2 --oneline | tail -1 | cut -c1-7)
-                echo 'Premier commit de la branche' $2 ':' $firstcommit
-                #git log master $2 --oneline | sed -n '/'$2'/{n;p;}' | cut -c1-7
-                #git log master $2 --oneline | sed -n "/$firstcommit/{n;p;}"
-                commitbefore=$(git log master $2 --oneline | sed -n "/$firstcommit/{n;p;}" | cut -c1-7)
-                echo 'Commit précedent sur la branche principale :' $commitbefore
-                echo
-                echo 'Mises à jour disponibles sur la branche' $2' :'
-                echo
-                git cherry -v $2 master $commitbefore | grep '^\+' --color
-                echo
-                echo 'Mises à jour déjà appliquées sur la branche' $2' :'
-                echo
-                git cherry -v $2 master $commitbefore | grep '^\-' --color
-                echo
-                exit 0
+                #if $3 exist
+                if [ -z "$3" ];then
+                    echo
+                    firstcommit=$(git log master..$2 --oneline | tail -1 | cut -c1-7)
+                    echo 'Premier commit de la branche' $2 ':' $firstcommit
+                    #git log master $2 --oneline | sed -n '/'$2'/{n;p;}' | cut -c1-7
+                    #git log master $2 --oneline | sed -n "/$firstcommit/{n;p;}"
+                    commitbefore=$(git log master $2 --oneline | sed -n "/$firstcommit/{n;p;}" | cut -c1-7)
+                    echo 'Commit précedent sur la branche principale :' $commitbefore
+                    echo
+                    echo 'Mises à jour disponibles sur la branche' $2' :'
+                    echo
+                    git cherry -v $2 master $commitbefore | grep '^\+' --color
+                    echo
+                    echo 'Mises à jour déjà appliquées sur la branche' $2' :'
+                    echo
+                    git cherry -v $2 master $commitbefore | grep '^\-' --color
+                    echo
+                    exit 0
+                else 
+                    if [ "$3" == "update" ]
+                    then
+                        firstcommit=$(git log master..$2 --oneline | tail -1 | cut -c1-7)
+                        commitbefore=$(git log master $2 --oneline | sed -n "/$firstcommit/{n;p;}" | cut -c1-7)
+                        fullcommand=''
+                        while read line ; 
+                        do 
+                            line=${line:2}
+                            hash=${line%% *} 
+                            truehash=$(echo $hash  )
+
+                            line=${line#* }
+                            line=${line// /_}
+                            fullcommand=$(echo "$fullcommand $truehash $line off")
+                            
+                        done <<<$(git cherry -v $2 master $commitbefore | grep '^\+')
+                        result=$(whiptail --checklist "Sélectionner les mises à jour à appliquer sur la branche $2 :" 20 100 5 $fullcommand 3>&1 1>&2 2>&3 )
+                        exitstatus=$?
+                        if [ $exitstatus = 0 ]; then
+                            result=${result//\"/}
+                            echo
+                            echo "Commande de mise à jour :" 
+                            echo "cd $1 && git checkout $2 && git cherry-pick $result"
+                            echo
+                            exit 0
+                        else
+                            echo "Commande annulée"
+                            exit 0
+                        fi
+                    fi
+                fi
             else
                 echo 'FATAL : Branche non existante ou non trouvée localement :' $2
                 exit 1
