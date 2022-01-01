@@ -173,8 +173,8 @@ else
                 then
                     echo
                     current_branch_name=$(git rev-parse --abbrev-ref HEAD)
-                    pwd
-                    cd $1 && git checkout $2 && git checkout $current_branch_name && cd -
+                    cd $1
+                    git checkout $2 && git checkout $current_branch_name
                     if [ $? -ne 0 ]
                     then
                         echo "FATAL : Impossible d'auto-discover : $2"
@@ -182,6 +182,7 @@ else
                     else
                         echo
                         echo "La branche $2 est maintenant détectée localement sur le projet."
+                        cd ~/web/www/update-constructeur && bash update-constructeur.sh $1 $2
                         echo 
                     fi
                 else
