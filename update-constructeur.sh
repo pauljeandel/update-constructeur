@@ -174,6 +174,16 @@ else
                 fi
             else
                 echo 'ERREUR : Branche non existante ou non trouvée localement :' $2
+                echo -n 'Rechercher et ajouter la branche localement depuis le dépot ? (Y/n) : '
+                read answer
+                if [ "$answer" == "y" ] || [ "$answer" == "Y" ] || [ "$answer" == "" ]
+                then
+                    echo "Recherhe de la branche $2 sur le dépot distant..."
+                else
+                    echo
+                    echo "Stoping..."
+                    exit 0
+                fi
                 remote_branch=$(git branch -a | grep $2)
                 if [ $remote_branch ]
                 then
@@ -193,10 +203,9 @@ else
                         echo "Re-Running : bash update-constructeur.sh $1 $2.."
                         echo
                         cd ../update-constructeur && bash update-constructeur.sh $1 $2
-                        echo 
                     fi
                 else
-                    echo "FATAL : Branche non trouvée ni localement ni sur le dépot distant : $2"
+                    echo "FATAL : Branche non trouvée : $2"
                     exit 1
                 fi
             fi
