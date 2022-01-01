@@ -26,7 +26,7 @@ fi
 #version display
 if [ "$1" == "version" ] || [ "$1" == "--version" ]
 then
-    echo "Version : $currentversion"
+    echo "Version actuelle : $currentversion"
     exit 0
 fi
 #| grep -oP '(?<=tag\/)[^"]*'
