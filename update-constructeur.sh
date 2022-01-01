@@ -56,7 +56,7 @@ else
             echo
         else
             echo
-            echo "Please run : bash update-constructeur.sh [path-to-script-folder] update"
+            echo "PLEASE RUN : bash update-constructeur.sh [path-to-script-folder] update"
             echo "--------------------------------------------------------------------------------"
             echo
         fi
