@@ -53,7 +53,7 @@ else
         read answer
         if [ "$answer" == "y" ] || [ "$answer" == "Y" ] || [ "$answer" == "" ]
         then
-            cd . && bash update-constructeur.sh . update
+            bash ~/web/www/update-constructeur/update-constructeur.sh ~/web/www/update-constructeur update
             exit 0
             echo
         else
@@ -208,7 +208,7 @@ else
                         echo "SUCCESS : La branche $2 est maintenant détectée localement sur le projet."
                         echo "Re-Running : bash update-constructeur.sh $1 $2.."
                         echo
-                        cd ../update-constructeur && bash update-constructeur.sh $1 $2
+                        bash ~/web/www/update-constructeur/update-constructeur.sh $1 $2
                     fi
                 else
                     echo "FATAL : Branche non trouvée : $2"
