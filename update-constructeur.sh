@@ -24,7 +24,7 @@ then
     exit 0
 fi
 #version display
-if [ "$1" == "version" ]
+if [ "$1" == "version" ] || [ "$1" == "--version" ]
 then
     echo "Version : $currentversion"
     exit 0
