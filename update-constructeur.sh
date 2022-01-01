@@ -53,6 +53,7 @@ else
         if [ "$answer" == "y" ] || [ "$answer" == "Y" ] || [ "$answer" == "" ]
         then
             cd . && bash update-constructeur.sh . update
+            exit 0
             echo
         else
             echo
