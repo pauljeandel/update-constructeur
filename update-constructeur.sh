@@ -1,6 +1,6 @@
 #!/bin/bash
 # Usage : bash update-constructeur.sh [acf-project-path] [branch-to-check]
-currentversion=1.1
+currentversion=1.0
 
 if [ "$1" == "-h" ] || [ "$1" == "help" ]
 then
@@ -39,24 +39,27 @@ then
     fi
 
 else
-    echo "--------------------------------------------------------------------------------"
-    echo
-    echo "Mise à jour disponible ( $currentversion > $lastReleaseVersion )"
-    echo "URL : https://github.com/pauljeandel/update-constructeur/releases/$lastReleaseVersion"
-    echo
-    echo "--------------------------------------------------------------------------------"
-    echo -n "Voulez-vous mettre à jour le script ? (Y/n) : "
-    read answer
-    if [ "$answer" == "y" ] || [ "$answer" == "Y" ] || [ "$answer" == "" ]
+    if [ "$2" == "update" ]
     then
-        cd ~/web/www/update-constructeur && bash update-constructeur.sh . update
         echo
     else
-        echo
-        echo "--------------------------------------------------------------------------------"
-        echo "Please run : bash update-constructeur.sh [path-to-script-folder] update"
         echo "--------------------------------------------------------------------------------"
         echo
+        echo "Mise à jour disponible ( $currentversion > $lastReleaseVersion )"
+        echo "URL : https://github.com/pauljeandel/update-constructeur/releases/$lastReleaseVersion"
+        echo
+        echo -n "Voulez-vous mettre à jour le script ? (Y/n) : "
+        read answer
+        if [ "$answer" == "y" ] || [ "$answer" == "Y" ] || [ "$answer" == "" ]
+        then
+            cd ~/web/www/update-constructeur && bash update-constructeur.sh . update
+            echo
+        else
+            echo
+            echo "Please run : bash update-constructeur.sh [path-to-script-folder] update"
+            echo "--------------------------------------------------------------------------------"
+            echo
+        fi
     fi
 fi
 
