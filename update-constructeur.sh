@@ -159,6 +159,12 @@ else
                             fullcommand=$(echo "$fullcommand $truehash $line off")
                             
                         done <<<$(git cherry -v $2 master $commitbefore | grep '^\+')
+                        export NEWT_COLORS='
+                        window=white,black
+                        border=white,black
+                        textbox=white,black
+                        button=black,green
+                        '
                         result=$(whiptail --checklist "Sélectionner les mises à jour à appliquer sur la branche $2 :" 20 100 13 $fullcommand 3>&1 1>&2 2>&3 )
                         exitstatus=$?
                         if [ $exitstatus = 0 ]; then
@@ -176,6 +182,12 @@ else
                             echo "Commande annulée ou aucun patch disponible"
                             exit 0
                         fi
+                    fi
+                    if [ "$3" == "view" ]
+                    then
+                        git log $2 --graph --color --pretty=format:"%x1b[31m%h%x09%x1b[32m%d%x1b[0m%x20%s"
+                        echo
+                        exit 0
                     fi
                 fi
             else
