@@ -1,5 +1,5 @@
 #!/bin/bash
-# Usage : bash update-constructeur.sh [acf-project-path] [branch-to-check]
+# Usage : bash update-constructeur.sh [arg1] [arg2] [arg3]
 currentversion=1.0
 
 if [ "$1" == "-h" ] || [ "$1" == "help" ]
@@ -11,6 +11,7 @@ then
     echo "- [path_to_acf_project] listall                     : Lister les projets disponibles localement et sur le dépot"
     echo "- [path_to_acf_project] [branch-to-check]           : Lister les mises à jour disponibles sur un projet"
     echo "- [path_to_acf_project] [branch-to-check] update    : Générer une commande de mise à jour "
+    echo "- [path_to_acf_project] [branch-to-check] view      : Affiche tous les commits du projet "
     echo 
     echo "Exemple :"
     echo "bash update-constructeur.sh ../acf-constructor list"
@@ -101,7 +102,8 @@ else
         if [ "$2" == "list" ]
         then
             echo
-            echo "Projets détectées localement :"
+            echo "Projets détectés :"
+            echo
             git branch
             echo
             exit 0
@@ -110,6 +112,7 @@ else
         then
             echo
             echo "Projets détectées sur le dépot distant :"
+            echo
             git branch -a
             echo
             exit 0
