@@ -39,6 +39,12 @@ then
     if [ "$2" == "update" ]
     then
         if [ -z "$3" ];then
+            echo
+            echo "Script déja à jour. ( $currentversion )"
+            echo "URL : https://github.com/pauljeandel/update-constructeur/releases/$currentversion"
+            echo
+            exit 0 
+        else
             if [ "$3" == "force" ];then
                 echo
                 echo "Mise à jour du script... > $lastReleaseVersion"
@@ -49,11 +55,7 @@ then
                 exit 0 
             fi
         fi
-        echo
-        echo "Script déja à jour. ( $currentversion )"
-        echo "URL : https://github.com/pauljeandel/update-constructeur/releases/$currentversion"
-        echo
-        exit 0 
+        
     else
         echo
         echo -n "Script à jour ( $currentversion )"
