@@ -1,6 +1,6 @@
 #!/bin/bash
 # Usage : bash update-constructeur.sh [acf-project-path] [branch-to-check]
-currentversion=1.1
+currentversion=1.0
 
 if [ "$1" == "-h" ] || [ "$1" == "help" ]
 then
@@ -52,7 +52,7 @@ else
         read answer
         if [ "$answer" == "y" ] || [ "$answer" == "Y" ] || [ "$answer" == "" ]
         then
-            cd ~/web/www/update-constructeur && bash update-constructeur.sh . update
+            cd . && bash update-constructeur.sh . update
             echo
         else
             echo
@@ -183,7 +183,7 @@ else
                         echo
                         echo "La branche $2 est maintenant détectée localement sur le projet."
                         echo "Running : bash update-constructeur.sh $1 $2.."
-                        cd ~/web/www/update-constructeur && bash update-constructeur.sh $1 $2
+                        cd . && bash update-constructeur.sh $1 $2
                         echo 
                     fi
                 else
