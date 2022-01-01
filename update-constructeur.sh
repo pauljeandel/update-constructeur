@@ -12,6 +12,9 @@ then
     echo "- [path_to_acf_project] [branch-to-check]           : Lister les mises à jour disponibles sur un projet"
     echo "- [path_to_acf_project] [branch-to-check] update    : Générer une commande de mise à jour "
     echo "- [path_to_acf_project] [branch-to-check] view      : Affiche tous les commits du projet "
+    echo
+    echo "- [path-to-script-folder] update                    : Met à jour le script vers la dernère version "
+    echo "- [path-to-script-folder] update force              : Met à jour le script vers le dernier commit (beta) "
     echo 
     echo "Exemple :"
     echo "bash update-constructeur.sh ../acf-constructor list"
