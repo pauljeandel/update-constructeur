@@ -1,6 +1,6 @@
 #!/bin/bash
 # Usage : bash update-constructeur.sh [arg1] [arg2] [arg3]
-currentversion=1.0
+currentversion=1.1
 
 if [ "$1" == "-h" ] || [ "$1" == "help" ]
 then
