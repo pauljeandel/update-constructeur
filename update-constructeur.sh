@@ -1,6 +1,6 @@
 #!/bin/bash
 # Usage : bash update-constructeur.sh [acf-project-path] [branch-to-check]
-currentversion=1.0
+currentversion=1.1
 
 if [ "$1" == "-h" ] || [ "$1" == "help" ]
 then
