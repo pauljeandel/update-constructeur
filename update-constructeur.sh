@@ -188,6 +188,7 @@ else
                         echo "FATAL : Impossible d'auto-discover, git checkout failed : $2"
                         exit 1
                     else
+                        cd -
                         echo
                         echo "SUCCESS : La branche $2 est maintenant détectée localement sur le projet."
                         echo "Re-Running : bash update-constructeur.sh $1 $2.."
