@@ -99,7 +99,7 @@ else
         if [ "$2" == "list" ]
         then
             echo
-            echo "Branches détectées localement sur le projet :"
+            echo "Projets détectées localement :"
             git branch
             echo
             echo "Pour détecter une nouvelle branche : cd acf-constructor && git checkout [branch-name] && cd -"
@@ -155,7 +155,7 @@ else
                         if [ $exitstatus = 0 ]; then
                             result=${result//\"/}
                             echo
-                            echo "Commande de mise à jour :" 
+                            echo "Commande de mise à jour ( A faire dans VsCode pour pouvoir gérer les conflits ):" 
                             echo "cd $1 && git checkout $2 && git cherry-pick $result"
                             echo
                             exit 0
@@ -166,8 +166,27 @@ else
                     fi
                 fi
             else
-                echo 'FATAL : Branche non existante ou non trouvée localement :' $2
-                exit 1
+                echo 'ERREUR : Branche non existante ou non trouvée localement :' $2
+                echo -n 'Etes vous sur que la branche existe ? (Y/n) : '
+                read answer
+                if [ "$answer" == "y" ] || [ "$answer" == "Y" ] || [ "$answer" == "" ]
+                then
+                    echo
+                    current_branch_name=$(git rev-parse --abbrev-ref HEAD)
+                    pwd
+                    cd $1 && git checkout $2 && git checkout $current_branch_name && cd -
+                    if [ $? -ne 0 ]
+                    then
+                        echo "FATAL : Impossible d'auto-discover : $2"
+                        exit 1
+                    else
+                        echo
+                        echo "La branche $2 est maintenant détectée localement sur le projet."
+                        echo 
+                    fi
+                else
+                    exit 1
+                fi
             fi
         fi
     fi
