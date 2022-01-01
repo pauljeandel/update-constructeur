@@ -30,6 +30,17 @@ if [ $lastReleaseVersion == $currentversion ]
 then
     if [ "$2" == "update" ]
     then
+        if [ -z "$3" ];then
+            if [ $3 == "force"];then
+                echo
+                echo "Mise à jour du script... > $lastReleaseVersion"
+                cd $1 && git pull -f
+                git checkout -f main
+                echo "Mise à jour terminée ( $lastReleaseVersion )"
+                bash update-constructeur.sh help
+                exit 0 
+            fi
+        fi
         echo
         echo "Script déja à jour. ( $currentversion )"
         echo "URL : https://github.com/pauljeandel/update-constructeur/releases/$currentversion"
