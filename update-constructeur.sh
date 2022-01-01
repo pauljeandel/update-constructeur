@@ -157,13 +157,17 @@ else
                             fullcommand=$(echo "$fullcommand $truehash $line off")
                             
                         done <<<$(git cherry -v $2 master $commitbefore | grep '^\+')
-                        result=$(whiptail --checklist "Sélectionner les mises à jour à appliquer sur la branche $2 :" 20 100 5 $fullcommand 3>&1 1>&2 2>&3 )
+                        result=$(whiptail --checklist "Sélectionner les mises à jour à appliquer sur la branche $2 :" 20 100 13 $fullcommand 3>&1 1>&2 2>&3 )
                         exitstatus=$?
                         if [ $exitstatus = 0 ]; then
                             result=${result//\"/}
                             echo
                             echo "Commande de mise à jour ( A faire dans VsCode pour pouvoir gérer les conflits ):" 
+                            echo "--------------------------------------------------------------------------------"
+                            echo
                             echo "cd $1 && git checkout $2 && git cherry-pick $result"
+                            echo
+                            echo "--------------------------------------------------------------------------------"
                             echo
                             exit 0
                         else
