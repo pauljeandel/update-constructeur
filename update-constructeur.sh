@@ -47,10 +47,11 @@ then
         else
             if [ "$3" == "force" ];then
                 echo
-                echo "Mise à jour du script... > $lastReleaseVersion"
+                echo "Mise à jour du script... > beta ahead of $currentversion"
                 cd $1 && git pull -f
                 git checkout -f main
-                echo "Mise à jour terminée ( $lastReleaseVersion )"
+                echo
+                echo "Mise à jour terminée - Version en avance sur la version courante ( $currentversion )"
                 bash update-constructeur.sh help
                 exit 0 
             fi
