@@ -39,7 +39,7 @@ then
     if [ "$2" == "update" ]
     then
         if [ -z "$3" ];then
-            if [ $3 == "force" ];then
+            if [ "$3" == "force" ];then
                 echo
                 echo "Mise à jour du script... > $lastReleaseVersion"
                 cd $1 && git pull -f
