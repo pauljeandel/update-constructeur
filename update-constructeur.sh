@@ -102,7 +102,14 @@ else
             echo "Projets détectées localement :"
             git branch
             echo
-            echo "Pour détecter une nouvelle branche : cd acf-constructor && git checkout [branch-name] && cd -"
+            exit 0
+        fi
+        if [ "$2" == "listall" ]
+        then
+            echo
+            echo "Projets détectées sur le dépot distant :"
+            git branch -a
+            echo
             exit 0
         fi
         if [[ `git status --porcelain` ]]; then
@@ -167,26 +174,28 @@ else
                 fi
             else
                 echo 'ERREUR : Branche non existante ou non trouvée localement :' $2
-                echo -n 'Etes vous sur que la branche existe ? (Y/n) : '
-                read answer
-                if [ "$answer" == "y" ] || [ "$answer" == "Y" ] || [ "$answer" == "" ]
+                remote_branch=$(git branch -a | grep $2)
+                if [ $remote_branch ]
                 then
+                    echo 'Found : ' $remote_branch
+                    echo "pulling..."
                     echo
                     current_branch_name=$(git rev-parse --abbrev-ref HEAD)
                     cd $1
                     git checkout $2 && git checkout $current_branch_name
                     if [ $? -ne 0 ]
                     then
-                        echo "FATAL : Impossible d'auto-discover : $2"
+                        echo "FATAL : Impossible d'auto-discover, git checkout failed : $2"
                         exit 1
                     else
                         echo
-                        echo "La branche $2 est maintenant détectée localement sur le projet."
-                        echo "Running : bash update-constructeur.sh $1 $2.."
+                        echo "SUCCESS : La branche $2 est maintenant détectée localement sur le projet."
+                        echo "Re-Running : bash update-constructeur.sh $1 $2.."
                         cd . && bash update-constructeur.sh $1 $2
                         echo 
                     fi
                 else
+                    echo "FATAL : Branche non trouvée ni localement ni sur le dépot distant : $2"
                     exit 1
                 fi
             fi
