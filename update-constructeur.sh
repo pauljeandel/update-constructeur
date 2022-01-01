@@ -7,7 +7,8 @@ then
     echo
     echo "Usage : bash update-constructeur.sh [arg1] [arg2] [arg3]" 
     echo
-    echo "- Lister les projets : [path_to_acf_project] list"
+    echo "- Lister les projets disponibles localement : [path_to_acf_project] list"
+    echo "- Lister les projets disponibles localement et sur le dépot : [path_to_acf_project] listall"
     echo "- Lister les mises à jour disponibles sur un projet : [path_to_acf_project] [branch-to-check]"
     echo "- Générer une commande de mise à jour : [path_to_acf_project] [branch-to-check] update"
     echo 
