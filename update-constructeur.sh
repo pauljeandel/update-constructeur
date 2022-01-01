@@ -100,6 +100,7 @@ else
             echo "Mise à jour du script... > $lastReleaseVersion"
             cd $1 && git pull -f
             git checkout -f main
+            echo
             echo "Mise à jour terminée ( $lastReleaseVersion )"
             bash update-constructeur.sh help
             exit 0 
