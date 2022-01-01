@@ -182,6 +182,7 @@ else
                     else
                         echo
                         echo "La branche $2 est maintenant détectée localement sur le projet."
+                        echo "Running : bash update-constructeur.sh $1 $2.."
                         cd ~/web/www/update-constructeur && bash update-constructeur.sh $1 $2
                         echo 
                     fi
