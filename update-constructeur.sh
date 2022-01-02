@@ -1,7 +1,8 @@
 #!/bin/bash
 # Usage : bash update-constructeur.sh [arg1] [arg2] [arg3]
 currentversion=1.1
-lastcommit=$(git log --oneline | head -1 | cut -c1-7)
+currentversioncommit="currentversioncommit"
+lastcommitonline=$(git log --oneline | head -1 | cut -c1-7)
 
 if [ "$1" == "-h" ] || [ "$1" == "help" ]
 then
@@ -28,9 +29,10 @@ fi
 if [ "$1" == "version" ] || [ "$1" == "--version" ]
 then
     current_last_commit=$(git rev-parse --short HEAD)
-    if [ "$current_last_commit" == "$lastcommit" ]
+    git merge-base --is-ancestor $currentversioncommit $current_last_commit 
+    if [ $? -eq 0 ]
     then
-        echo "Version (beta) : $currentversion.$lastcommit"
+        echo "Version (beta) : $currentversion.$current_last_commit"
         exit 0
     else
         echo "Version : $currentversion"
@@ -60,7 +62,7 @@ then
                 cd $1 && git pull -f
                 git checkout -f main
                 echo
-                echo "Mise à jour terminée - Version en avance sur la version courante ( $currentversion.$lastcommit )"
+                echo "Mise à jour terminée - Version en avance sur la version courante ( $currentversion.$lastcommitonline )"
                 echo
                 exit 0 
             fi
