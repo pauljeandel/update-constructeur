@@ -31,12 +31,12 @@ if [ "$1" == "version" ] || [ "$1" == "--version" ]
 then
     current_last_commit=$(git rev-parse --short HEAD)
     git merge-base --is-ancestor $currentversioncommit $current_last_commit 
-    if [ $? -eq 0 ]
+    if [ $? -eq 1 ] || [ $currentversioncommit == $current_last_commit ]
     then
-        echo "Version (beta) : $currentversion.$current_last_commit"
+        echo "Version : $currentversion"
         exit 0
     else
-        echo "Version : $currentversion"
+        echo "Version (beta) : $currentversion.$current_last_commit"
         exit 0
     fi
 
