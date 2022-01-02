@@ -2,6 +2,7 @@
 # Usage : bash update-constructeur.sh [arg1] [arg2] [arg3]
 currentversion=1.1
 currentversioncommit="e592d82"
+
 lastcommitonline=$(git log --oneline | head -1 | cut -c1-7)
 
 if [ "$1" == "-h" ] || [ "$1" == "help" ]
