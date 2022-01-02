@@ -52,7 +52,7 @@ then
                 git checkout -f main
                 echo
                 echo "Mise à jour terminée - Version en avance sur la version courante ( $currentversion )"
-                bash update-constructeur.sh help
+                echo
                 exit 0 
             fi
         fi
