@@ -1,7 +1,7 @@
 #!/bin/bash
 # Usage : bash update-constructeur.sh [arg1] [arg2] [arg3]
 currentversion=1.1
-currentversioncommit="e592d82"
+currentversioncommit="3ec0578"
 
 lastcommitonline=$(git log --oneline | head -1 | cut -c1-7)
 
@@ -30,7 +30,7 @@ fi
 if [ "$1" == "version" ] || [ "$1" == "--version" ]
 then
     current_last_commit=$(git rev-parse --short HEAD)
-    git merge-base --is-ancestor $currentversioncommit $current_last_commit 
+    git merge-base --is-ancestor $currentversioncommit $current_last_commit
     if [ $? -eq 1 ] || [ $currentversioncommit == $current_last_commit ]
     then
         echo "Version : $currentversion"
