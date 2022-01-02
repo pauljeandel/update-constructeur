@@ -3,7 +3,6 @@
 currentversion=1.1
 currentversioncommit="3ec0578"
 
-lastcommitonline=$(git log --oneline | head -1 | cut -c1-7)
 
 if [ "$1" == "-h" ] || [ "$1" == "help" ]
 then
@@ -29,16 +28,13 @@ fi
 #version display
 if [ "$1" == "version" ] || [ "$1" == "--version" ]
 then
+    cd ~/web/www/update-constructeur
     current_last_commit=$(git rev-parse --short HEAD)
-    git merge-base --is-ancestor $currentversioncommit $current_last_commit
-    if [ $? -eq 1 ] || [ $currentversioncommit == $current_last_commit ]
-    then
-        echo "Version : $currentversion"
-        exit 0
-    else
-        echo "Version (beta) : $currentversion.$current_last_commit"
-        exit 0
-    fi
+    lastcommitonline=$(git log --oneline | head -1 )
+
+    echo "Version : $currentversion ( $current_last_commit )"
+    echo "Dernier commit disponible sur beta : $lastcommitonline"
+    exit 0
 
 fi
 #| grep -oP '(?<=tag\/)[^"]*'
