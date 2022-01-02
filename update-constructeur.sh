@@ -46,12 +46,13 @@ then
             exit 0 
         else
             if [ "$3" == "force" ];then
+                lastcommit=$(git log --oneline | head -1 | cut -c1-7)
                 echo
                 echo "Mise à jour du script... > beta ahead of $currentversion"
                 cd $1 && git pull -f
                 git checkout -f main
                 echo
-                echo "Mise à jour terminée - Version en avance sur la version courante ( $currentversion )"
+                echo "Mise à jour terminée - Version en avance sur la version courante ( $currentversion.$lastcommit )"
                 echo
                 exit 0 
             fi
