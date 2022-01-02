@@ -63,7 +63,7 @@ then
                 cd $1 && git pull -f
                 git checkout -f main
                 echo
-                echo "Mise à jour terminée - Version en avance sur la version courante ( $currentversion.$lastcommitonline )"
+                echo "Mise à jour terminée - Version en avance sur la version courante ( $currentversion.$lastcommitonline > $currentversion.$current_last_commit )"
                 echo
                 exit 0 
             fi
