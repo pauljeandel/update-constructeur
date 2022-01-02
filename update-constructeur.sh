@@ -1,6 +1,7 @@
 #!/bin/bash
 # Usage : bash update-constructeur.sh [arg1] [arg2] [arg3]
 currentversion=1.1
+lastcommit=$(git log --oneline | head -1 | cut -c1-7)
 
 if [ "$1" == "-h" ] || [ "$1" == "help" ]
 then
@@ -26,8 +27,16 @@ fi
 #version display
 if [ "$1" == "version" ] || [ "$1" == "--version" ]
 then
-    echo "Version actuelle : $currentversion"
-    exit 0
+    current_last_commit=$(git rev-parse --short HEAD)
+    if [ "$current_last_commit" == "$lastcommit" ]
+    then
+        echo "Version (beta) : $currentversion.$lastcommit"
+        exit 0
+    else
+        echo "Version : $currentversion"
+        exit 0
+    fi
+
 fi
 #| grep -oP '(?<=tag\/)[^"]*'
 content=$(wget https://github.com/pauljeandel/update-constructeur/releases -q -O -)
@@ -46,7 +55,6 @@ then
             exit 0 
         else
             if [ "$3" == "force" ];then
-                lastcommit=$(git log --oneline | head -1 | cut -c1-7)
                 echo
                 echo "Mise à jour du script... > beta ahead of $currentversion"
                 cd $1 && git pull -f
