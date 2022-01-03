@@ -28,10 +28,9 @@ fi
 #version display
 if [ "$1" == "version" ] || [ "$1" == "--version" ]
 then
-    cd ~/web/www/update-constructeur
+    cd "$1"
     current_last_commit=$(git rev-parse --short HEAD)
     lastcommitonline=$(git log --oneline | head -1 )
-
     echo "Version : $currentversion ( $current_last_commit )"
     echo "Dernier commit disponible sur beta : $lastcommitonline"
     exit 0
@@ -56,7 +55,10 @@ then
             if [ "$3" == "force" ];then
                 echo
                 echo "Mise à jour du script... > beta ahead of $currentversion"
-                cd $1 && git pull -f
+                cd "$1"
+                current_last_commit=$(git rev-parse --short HEAD)
+                lastcommitonline=$(git log --oneline | head -1 )
+                git pull -f
                 git checkout -f main
                 echo
                 echo "Mise à jour terminée - Version en avance sur la version courante ( $currentversion.$lastcommitonline > $currentversion.$current_last_commit )"
