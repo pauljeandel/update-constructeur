@@ -17,6 +17,7 @@ then
     echo
     echo "- [path-to-script-folder] update                    : Met à jour le script vers la dernière version "
     echo "- [path-to-script-folder] update force              : Met à jour le script vers le dernier commit (beta) "
+    echo "- [path-to-script-folder] version                   : Affiche la version du script "
     echo 
     echo "Exemple :"
     echo "bash update-constructeur.sh ../acf-constructor list"
@@ -57,7 +58,7 @@ then
                 echo "Mise à jour du script... > beta ahead of $currentversion"
                 cd "$1"
                 current_last_commit=$(git rev-parse --short HEAD)
-                lastcommitonline=$(git log --oneline | head -1 )
+                lastcommitonline=$(git log --oneline | head -1 | cut -c1-7)
                 git pull -f
                 git checkout -f main
                 echo
