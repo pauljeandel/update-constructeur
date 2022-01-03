@@ -27,7 +27,7 @@ then
     exit 0
 fi
 #version display
-if [ "$1" == "version" ] || [ "$1" == "--version" ]
+if [ "$2" == "version" ] || [ "$2" == "--version" ]
 then
     cd "$1"
     current_last_commit=$(git rev-parse --short HEAD)
